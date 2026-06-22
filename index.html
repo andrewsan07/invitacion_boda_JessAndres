@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -31,7 +31,8 @@
                     fontFamily: {
                         serif: ['Cormorant Garamond', 'serif'],
                         sans: ['Montserrat', 'sans-serif'],
-                        script: ['Great Vibes', 'cursive']
+                        script: ['Great Vibes', 'cursive'],
+                        elegant: ['Playfair Display', 'serif']
                     },
                     boxShadow: {
                         'paper': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
@@ -60,8 +61,18 @@
             background-size: cover; background-position: center; opacity: 0.2; mix-blend-mode: multiply; border-radius: 50%; filter: blur(1px);
         }
 
-        .timeline-line::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; border-left: 1px dashed #7993A5; }
-        @media (min-width: 768px) { .timeline-line::before { left: 50%; transform: translateX(-50%); } }
+        .timeline-line::before { 
+            content: ''; 
+            position: absolute; 
+            left: 24px; 
+            top: 0; 
+            bottom: 0; 
+            width: 1px; 
+            border-left: 1px dashed #7993A5; 
+        }
+        @media (min-width: 768px) { 
+            .timeline-line::before { left: 50%; transform: translateX(-50%); } 
+        }
 
         @keyframes float-slow {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -71,12 +82,60 @@
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(12px) rotate(-1deg); }
         }
+        @keyframes draw-line {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
         .animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
         .animate-float-medium { animation: float-medium 5s ease-in-out infinite; }
+        
+        .drawn-line {
+            stroke-dasharray: 100;
+            animation: draw-line 3s ease-out forwards;
+        }
+
+        .bg-parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .torn-edges {
+             clip-path: polygon(
+                0% 3%, 2% 0%, 4% 4%, 6% 1%, 8% 3%, 10% 0%, 12% 5%, 14% 1%, 16% 3%, 18% 0%, 
+                20% 4%, 22% 1%, 24% 3%, 26% 0%, 28% 5%, 30% 1%, 32% 3%, 34% 0%, 36% 4%, 38% 1%, 
+                40% 3%, 42% 0%, 44% 5%, 46% 1%, 48% 3%, 50% 0%, 52% 4%, 54% 1%, 56% 3%, 58% 0%, 
+                60% 5%, 62% 1%, 64% 3%, 66% 0%, 68% 4%, 70% 1%, 72% 3%, 74% 0%, 76% 5%, 78% 1%, 
+                80% 3%, 82% 0%, 84% 4%, 86% 1%, 88% 3%, 90% 0%, 92% 5%, 94% 1%, 96% 3%, 98% 0%, 100% 3%, 
+                
+                100% 97%, 98% 100%, 96% 96%, 94% 99%, 92% 97%, 90% 100%, 88% 95%, 86% 99%, 84% 97%, 82% 100%, 
+                80% 96%, 78% 99%, 76% 97%, 74% 100%, 72% 95%, 70% 99%, 68% 97%, 66% 100%, 64% 96%, 62% 99%, 
+                60% 97%, 58% 100%, 56% 95%, 54% 99%, 52% 97%, 50% 100%, 48% 96%, 46% 99%, 44% 97%, 42% 100%, 
+                40% 95%, 38% 99%, 36% 97%, 34% 100%, 32% 96%, 30% 99%, 28% 97%, 26% 100%, 24% 95%, 22% 99%, 
+                20% 97%, 18% 100%, 16% 96%, 14% 99%, 12% 97%, 10% 100%, 8% 95%, 6% 99%, 4% 97%, 2% 100%, 0% 97%
+            );
+        }
     </style>
 </head>
 <body class="antialiased bg-cream text-darkslate bg-paper-texture">
 
+    <div id="success-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-darkslate/60 backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-paper p-10 rounded-2xl shadow-2xl text-center max-w-md mx-4 relative border border-goldhour/30 transform transition-transform scale-100">
+            <div class="absolute inset-0 opacity-40 bg-paper-texture pointer-events-none rounded-2xl"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 mx-auto bg-sage/10 rounded-full flex items-center justify-center text-sage text-4xl mb-6">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="font-script text-5xl text-moss mb-2">¡Gracias!</h3>
+                <h4 class="font-serif text-2xl text-darkslate mb-4">Confirmación Recibida</h4>
+                <div class="w-16 h-[1px] bg-goldhour/50 mx-auto mb-6"></div>
+                <p class="font-sans text-[13px] font-light text-darkslate/80 mb-8 leading-relaxed">Tu respuesta ha sido enviada correctamente y hemos notificado a los novios. ¡Estamos emocionados de compartir este día!</p>
+                <button onclick="closeModal()" class="w-full py-4 bg-darkslate text-white text-[11px] uppercase tracking-[0.2em] font-semibold rounded-full hover:bg-moss transition duration-300 shadow-md">Volver a la invitación</button>
+            </div>
+        </div>
+    </div>
     <div id="envelope-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-sage envelope-transition shadow-inner">
         <div class="absolute inset-0 opacity-20 bg-paper-texture"></div>
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -91,7 +150,7 @@
             </div>
             
             <h3 class="font-serif text-white text-2xl italic mt-6 tracking-wide">Una invitación para:</h3>
-            <p id="envelope-guest-name" class="font-sans text-cream text-lg font-light mt-2 tracking-widest uppercase">Cargando Invitación...</p>
+            <p id="envelope-guest-name" class="font-sans text-cream text-lg font-light mt-2 tracking-widest uppercase text-center leading-relaxed">Nuestros Invitados Especiales</p>
             <p class="text-white/60 text-xs mt-12 uppercase tracking-widest font-sans animate-pulse">Toca el sello para abrir</p>
         </div>
     </div>
@@ -100,10 +159,7 @@
     <div class="relative">
 
         <section class="min-h-screen flex items-center justify-center py-20 px-4 relative overflow-hidden bg-[#faf7f2]">
-            
-            <img src="/img/fondo_inicio.png" alt="Fondo floral" class="absolute inset-0 w-full h-full object-cover opacity-30 filter grayscale-[40%] blur-[2px] z-0">
-            
-            <div class="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-[#faf7f2] z-0"></div>
+            <img src="/Users/andrew/Desktop/boda/img/fondo_inicio.png" alt="Fondo floral" class="absolute inset-0 w-full h-full object-cover opacity-80 z-0">
 
             <div class="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-screen lg:min-h-0 pt-16 lg:pt-0">
 
@@ -114,21 +170,23 @@
                     </svg>
 
                     <div class="absolute right-0 lg:-right-4 top-4 z-10 animate-float-slow">
-                        <img src="/FotosBoda/Destacados/_JBR6913.jpg" alt="Foto 1" class="w-48 sm:w-60 h-64 sm:h-80 object-cover rounded-2xl shadow-xl">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR6913.jpg" alt="Foto 1" class="w-48 sm:w-60 h-64 sm:h-80 object-cover rounded-2xl shadow-xl">
                     </div>
                     
                     <div class="absolute left-0 lg:left-4 top-10 sm:top-16 z-20 animate-float-medium">
-                        <img src="/FotosBoda/Destacados/_JBR6969.jpg" alt="Foto 2" class="w-32 sm:w-40 h-32 sm:h-40 object-cover rounded-2xl shadow-floating border-4 border-[#faf7f2]">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR6911.jpg" alt="Foto 2" class="w-32 sm:w-40 h-32 sm:h-40 object-cover rounded-2xl shadow-floating">
                     </div>
                          
                     <div class="absolute left-12 sm:left-20 -bottom-4 sm:-bottom-8 z-30 animate-float-slow" style="animation-delay: 1s;">
-                        <img src="/FotosBoda/Destacados/_JBR6911.jpg" alt="Foto 3" class="w-36 sm:w-44 h-40 sm:h-48 object-cover rounded-2xl shadow-floating border-4 border-[#faf7f2]">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR6969.jpg" alt="Foto 3" class="w-36 sm:w-44 h-40 sm:h-48 object-cover rounded-2xl shadow-floating">
                     </div>
                 </div>
 
                 <div class="w-full lg:w-[30%] text-center flex flex-col items-center justify-center reveal lg:order-2 z-40 my-8 lg:my-0">
                     <p class="font-sans text-xs uppercase tracking-[0.2em] text-moss/80 mb-6 drop-shadow-sm">Tenemos la alegría de invitarte a celebrar la boda de</p>
-                    <h1 class="font-script text-7xl sm:text-8xl lg:text-7xl xl:text-8xl text-[#5F7C6B] mb-10 drop-shadow-sm">Jess & Andrés</h1>
+                    <h1 class="font-script text-7xl sm:text-8xl lg:text-7xl xl:text-8xl text-[#5F7C6B] mb-2 drop-shadow-sm">Jess & Andrés</h1>
+                    
+                    <p class="font-serif italic text-2xl text-darkslate mb-8 tracking-wide drop-shadow-sm">Domingo 18 de Octubre 2026</p>
                     
                     <div class="flex gap-4 sm:gap-6 justify-center text-center w-full max-w-sm mx-auto">
                         <div class="flex flex-col items-center w-16">
@@ -154,19 +212,15 @@
                 </div>
 
                 <div class="w-full lg:w-[35%] h-[350px] sm:h-[450px] relative flex items-center justify-center lg:order-3 scale-90 sm:scale-100 mb-8 lg:mb-0">
-                    
                     <div class="absolute left-0 lg:-left-4 top-0 z-10 animate-float-medium" style="animation-delay: 0.5s;">
-                        <img src="/Fotos Boda/Destacados/_JBR7002.jpg" alt="Foto 4" class="w-52 sm:w-64 h-72 sm:h-80 object-cover rounded-2xl shadow-xl">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR7002.jpg" alt="Foto 4" class="w-52 sm:w-64 h-72 sm:h-80 object-cover rounded-2xl shadow-xl">
                     </div>
-                    
                     <div class="absolute right-0 lg:-right-8 bottom-8 sm:bottom-12 z-20 animate-float-slow" style="animation-delay: 1.5s;">
-                        <img src="/Fotos Boda/Destacados/_JBR6828.jpg" alt="Foto 5" class="w-48 sm:w-56 h-36 sm:h-44 object-cover rounded-2xl shadow-floating border-4 border-[#faf7f2]">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR6828.jpg" alt="Foto 5" class="w-48 sm:w-56 h-36 sm:h-44 object-cover rounded-2xl shadow-floating">
                     </div>
                 </div>
-
             </div>
         </section>
-
 
         <div class="w-full h-16 flex items-center justify-center bg-paper relative z-20">
             <div class="w-24 h-[1px] bg-hydrangea/40"></div>
@@ -174,176 +228,187 @@
             <div class="w-24 h-[1px] bg-hydrangea/40"></div>
         </div>
 
-        <section class="py-24 px-4 max-w-6xl mx-auto relative overflow-hidden bg-paper">
-            <div class="grid md:grid-cols-12 gap-12 items-center relative z-10">
-                
-                <div class="md:col-span-5 text-center md:text-left reveal">
-                    <span class="font-sans text-[10px] uppercase tracking-[0.3em] text-goldhour font-semibold">Un nuevo capítulo</span>
-                    <h2 class="font-serif text-5xl md:text-6xl text-sage my-4">Nuestra Historia</h2>
-                    <p class="font-sans font-light text-gray-700 leading-relaxed text-sm mb-6">
-                        "Hay momentos en la vida que son inolvidables, y compartirlos con las personas que más amamos los hace eternos. Cada paso, cada risa y cada atardecer nos ha traído a este instante."
-                    </p>
-                    <p class="font-sans font-light text-gray-700 leading-relaxed text-sm italic border-l-2 border-hydrangea pl-4">
-                        Iniciamos una nueva etapa rodeados de naturaleza, luz dorada y mucho amor. Tu presencia es el mejor testigo para este capítulo.
-                    </p>
-                </div>
-                
-                <div class="md:col-span-7 grid grid-cols-2 gap-4 relative reveal">
-                    <div class="absolute -bottom-10 -right-10 w-64 h-64 hydrangea-accent z-0"></div>
-                    
-                    <div class="col-span-2 aspect-[21/9] rounded-2xl overflow-hidden shadow-floating border-4 border-white group relative z-10">
-                        <img src="TU_FOTO_HISTORIA_PANORAMICA.jpg" alt="Nosotros" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
-                    </div>
-                    
-                    <div class="aspect-square rounded-2xl overflow-hidden shadow-floating border-4 border-white group relative z-10">
-                        <img src="TU_FOTO_HISTORIA_CUADRADA_IZQ.jpg" alt="Detalle" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
-                    </div>
-                    
-                    <div class="aspect-square rounded-2xl overflow-hidden shadow-floating border-4 border-white group relative z-10">
-                        <img src="TU_FOTO_HISTORIA_CUADRADA_DER.jpg" alt="Anillos" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+        <section class="relative w-full overflow-hidden bg-parallax py-32" style="background-image: url('/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR6894.jpg');">
+            <div class="relative z-10 w-full flex items-center justify-center px-4 reveal">
+                <div class="w-full max-w-6xl relative">
+                    <div class="absolute inset-0 bg-[#728578]/85 torn-edges backdrop-blur-[2px]"></div>
+                    <div class="relative z-10 p-16 md:p-24 text-center flex flex-col items-center">
+                        <i class="fa-solid fa-seedling text-white/40 text-3xl mb-6"></i>
+                        <p class="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/70 mb-4 font-semibold">Un nuevo capítulo</p>
+                        <h2 class="font-script text-6xl md:text-8xl text-white mb-8 drop-shadow-sm transform -rotate-2">Nuestra Historia</h2>
+                        <svg class="w-32 h-6 text-cream/80 mb-10" viewBox="0 0 100 20" fill="none">
+                            <path class="drawn-line" d="M0,10 Q25,0 50,10 T100,10" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <p class="font-elegant italic text-white/95 leading-loose text-2xl md:text-3xl max-w-3xl mb-10 drop-shadow-sm font-medium">"Hay momentos en la vida que son inolvidables, y compartirlos con las personas que más amamos los hace eternos. Cada paso, cada risa y cada atardecer nos ha traído a este instante."</p>
+                        <p class="font-elegant text-white/90 leading-relaxed text-xl md:text-2xl max-w-2xl font-light">Iniciamos una nueva etapa rodeados de naturaleza, luz dorada y mucho amor. Tu presencia es el mejor testigo para este capítulo.</p>
+                        <div class="mt-12 w-24 h-[1px] bg-white/30 mx-auto"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="py-24 px-4 relative overflow-hidden">
-            <div class="absolute inset-0 bg-sage/5"></div>
-            <div class="absolute -top-40 -left-40 w-96 h-96 hydrangea-accent opacity-10"></div>
-            <div class="absolute -bottom-40 -right-40 w-96 h-96 hydrangea-accent opacity-10"></div>
+        <section class="py-24 px-4 relative overflow-hidden bg-sage/10 border-y border-sage/20">
+            <div class="absolute inset-0 bg-[#E2E7E3] opacity-60 mix-blend-multiply"></div>
+            <div class="absolute -top-40 -left-40 w-96 h-96 hydrangea-accent opacity-20"></div>
+            <div class="absolute -bottom-40 -right-40 w-96 h-96 hydrangea-accent opacity-20"></div>
             
+            <svg class="absolute top-48 left-[5%] md:left-[15%] w-16 h-16 text-hydrangea/80 transform rotate-[15deg] hidden md:block" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M10,20 Q40,70 80,40" stroke-linecap="round" fill="none"/>
+                <path d="M70,35 L80,40 L70,50" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg class="absolute bottom-20 left-[10%] md:left-[20%] w-24 h-6 text-dustyblue/70" viewBox="0 0 100 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+            </svg>
+            <div class="absolute top-32 right-[10%] md:right-[18%] flex flex-col items-center text-hydrangea/60 transform -rotate-12 animate-pulse" style="animation-duration: 4s;">
+                <i class="fa-solid fa-leaf text-2xl"></i>
+                <div class="w-[2px] h-8 bg-hydrangea/40 mt-1"></div>
+            </div>
+
             <div class="max-w-5xl mx-auto text-center relative z-10 reveal">
-                <h2 class="font-serif text-4xl md:text-5xl text-darkslate mb-16 relative inline-block">
+                <h2 class="font-serif text-4xl md:text-5xl text-moss mb-16 relative inline-block">
                     Mensajes del Corazón
-                    <span class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-[1px] bg-hydrangea"></span>
+                    <div class="absolute -bottom-5 left-1/2 transform -translate-x-1/2 flex items-center justify-center w-full">
+                        <div class="w-16 h-[1px] bg-hydrangea/40"></div>
+                        <i class="fa-solid fa-diamond text-[5px] text-hydrangea/60 mx-2"></i>
+                        <div class="w-16 h-[1px] bg-hydrangea/40"></div>
+                    </div>
                 </h2>
                 
                 <div class="grid md:grid-cols-2 gap-12 mt-8">
-                    <div class="bg-white p-10 shadow-paper relative transform md:-rotate-1 hover:rotate-0 hover:-translate-y-2 transition duration-500">
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-white/60 shadow-sm border border-white backdrop-blur-md rotate-2"></div>
-                        <i class="fa-solid fa-tree text-sage text-2xl mb-4"></i>
+                    <div class="bg-white p-10 shadow-paper relative transform md:-rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(121,147,165,0.15)] transition duration-500 group">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-white/90 shadow-sm border border-gray-100 border-b-hydrangea/30 backdrop-blur-md rotate-2"></div>
+                        <i class="fa-solid fa-tree text-sage text-2xl mb-4 group-hover:text-hydrangea transition-colors duration-500"></i>
                         <h3 class="font-serif text-2xl text-darkslate mb-4">A Nuestra Familia</h3>
-                        <p class="text-sm font-light text-gray-600 leading-relaxed">
-                            "A nuestros padres y hermanos: gracias por guiarnos con su amor incondicional, por ser el ejemplo vivo de paciencia y por acompañarnos con tanta alegría hacia el altar."
-                        </p>
+                        <p class="text-sm font-light text-gray-600 leading-relaxed">"A nuestros padres y hermanos: gracias por guiarnos con su amor incondicional, por ser el ejemplo vivo de paciencia y por acompañarnos con tanta alegría hacia el altar."</p>
                     </div>
-                    <div class="bg-white p-10 shadow-paper relative transform md:rotate-1 hover:rotate-0 hover:-translate-y-2 transition duration-500">
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-white/60 shadow-sm border border-white backdrop-blur-md -rotate-2"></div>
-                        <i class="fa-solid fa-martini-glass text-goldhour text-2xl mb-4"></i>
+                    <div class="bg-white p-10 shadow-paper relative transform md:rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(121,147,165,0.15)] transition duration-500 group">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-white/90 shadow-sm border border-gray-100 border-b-hydrangea/30 backdrop-blur-md -rotate-2"></div>
+                        <i class="fa-solid fa-martini-glass text-goldhour text-2xl mb-4 group-hover:text-hydrangea transition-colors duration-500"></i>
                         <h3 class="font-serif text-2xl text-darkslate mb-4">A los Amigos</h3>
-                        <p class="text-sm font-light text-gray-600 leading-relaxed">
-                            "A ustedes, cómplices de vida que han reído y caminado a nuestro lado en cada capítulo: gracias por la complicidad. Preparémonos para una noche de baile y recuerdos inolvidables."
-                        </p>
+                        <p class="text-sm font-light text-gray-600 leading-relaxed">"A ustedes, cómplices de vida que han reído y caminado a nuestro lado en cada capítulo: gracias por la complicidad. Preparémonos para una noche de baile y recuerdos inolvidables."</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="py-24 px-4 bg-white border-y border-gray-100">
-            <div class="max-w-4xl mx-auto">
+        <section class="py-24 px-4 bg-[#E5E7DF] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/floral-paper.png');"></div>
+            
+            <div class="absolute top-1/4 left-[-10%] w-[500px] h-[500px] bg-goldhour/10 rounded-full blur-[100px] pointer-events-none"></div>
+            <div class="absolute bottom-1/4 right-[-10%] w-[500px] h-[500px] bg-hydrangea/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+            <div class="max-w-5xl mx-auto relative z-10">
                 <div class="text-center mb-16 reveal">
-                    <span class="font-sans text-[10px] uppercase tracking-[0.3em] text-goldhour font-semibold">Logística</span>
-                    <h2 class="font-serif text-4xl md:text-5xl text-sage mt-2">Dónde & Cuándo</h2>
+                    <span class="font-sans text-[10px] uppercase tracking-[0.4em] text-goldhour font-bold">Logística</span>
+                    <h2 class="font-serif text-4xl md:text-6xl text-sage mt-2">Dónde & Cuándo</h2>
+                    <div class="w-20 h-[1px] bg-sand mx-auto mt-4"></div>
                 </div>
 
-                <div class="bg-paper p-8 md:p-12 rounded-2xl flex flex-col md:flex-row items-center gap-8 mb-20 shadow-sm border border-sage/10 relative overflow-hidden transform hover:shadow-floating transition duration-500 reveal">
-                    <div class="absolute -right-20 -bottom-20 w-64 h-64 hydrangea-accent z-0"></div>
-                    <div class="w-full md:w-1/3 aspect-square rounded-full overflow-hidden border-4 border-white shadow-md relative z-10 shrink-0 group">
-                        
-                        <img src="TU_FOTO_DEL_LUGAR.jpg" alt="Lugar" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                        
+                <div class="bg-[#fdfcf9] rounded-[2rem] overflow-hidden shadow-soft border border-sage/10 flex flex-col md:flex-row items-stretch reveal hover:shadow-floating transition-all duration-700">
+                    <div class="w-full md:w-1/2 relative min-h-[350px] overflow-hidden group">
+                        <img src="/Users/andrew/Desktop/boda/img/quintamajo.png" alt="Hacienda Campestre" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-moss/40 to-transparent opacity-60"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+               
+                        </div>
                     </div>
-                    <div class="text-center md:text-left relative z-10 flex-1">
-                        <h3 class="font-serif text-3xl text-darkslate mb-2">Hacienda Campestre Eventos</h3>
-                        <p class="font-sans text-sm font-light text-gray-600 mb-4 border-l-2 border-hydrangea pl-3 inline-block">Domingo, 18 de Octubre • 05:00 PM</p>
-                        <p class="font-sans text-xs font-light text-gray-500 mb-6">Disfruta de una tarde fresca al aire libre junto al lago. Contamos con estacionamiento y accesos amplios.</p>
-                        <a href="https://maps.app.goo.gl/SxTYALAFgKHibTvL7" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-hydrangea text-white rounded-full text-xs uppercase tracking-widest hover:bg-dustyblue hover:-translate-y-1 transition duration-300 shadow-md">
-                            <i class="fa-solid fa-map-pin"></i> Abrir Mapa
+                    <div class="w-full md:w-1/2 p-10 md:p-14 flex flex-col justify-center text-center md:text-left relative">
+                        <div class="absolute top-8 right-8 text-sage/10 text-8xl rotate-12 pointer-events-none">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <h3 class="font-serif text-3xl md:text-4xl text-moss mb-4">Quinta María José</h3>
+                        <div class="flex items-center justify-center md:justify-start gap-3 mb-6">
+                            <span class="h-[1px] w-8 bg-goldhour"></span>
+                            <p class="font-sans text-sm tracking-widest text-goldhour font-semibold uppercase">Domingo • 18 Octubre • 05:00 PM</p>
+                        </div>
+                        <p class="font-sans text-sm font-light text-moss/70 leading-relaxed mb-8">
+                            Un espacio rodeado de naturaleza y aire puro, donde el atardecer nos brindará su mejor luz para celebrar. <br><br>
+                            <span class="italic text-moss/90 font-serif text-lg">"Prepárate para una velada mágica bajo las estrellas."</span>
+                        </p>
+                        <a href="https://maps.app.goo.gl/SxTYALAFgKHibTvL7" target="_blank" class="w-fit mx-auto md:mx-0 inline-flex items-center gap-3 px-10 py-4 bg-goldhour text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold hover:bg-moss hover:-translate-y-1 transition duration-500 shadow-lg active:scale-95">
+                            <i class="fa-solid fa-location-dot animate-bounce"></i> Abrir Mapa
                         </a>
                     </div>
                 </div>
 
-                <div class="text-center mb-10 reveal">
-                    <h3 class="font-serif text-3xl text-darkslate mb-4">El Programa del Día</h3>
-                    <div class="w-16 h-1 bg-goldhour mx-auto rounded-full"></div>
+                <div class="text-center mt-32 mb-20 reveal">
+                    <p class="font-script text-4xl text-moss mb-2">Momentos especiales</p>
+                    <h3 class="font-serif text-4xl md:text-5xl text-darkslate tracking-wide">El Programa del Día</h3>
+                    <div class="flex items-center justify-center gap-4 mt-6">
+                        <div class="w-12 h-[1px] bg-hydrangea/30"></div>
+                        <i class="fa-solid fa-clock text-hydrangea/50"></i>
+                        <div class="w-12 h-[1px] bg-hydrangea/30"></div>
+                    </div>
                 </div>
                 
-                <div class="relative timeline-line py-4">
-                    <div class="relative flex items-center mb-12 group reveal">
-                        <div class="absolute left-[20px] md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white border-2 border-hydrangea rounded-full z-10 group-hover:scale-[1.8] group-hover:bg-hydrangea transition duration-300"></div>
-                        <div class="w-full flex flex-col md:flex-row items-start md:items-center justify-between pl-12 md:pl-0">
-                            <div class="md:w-5/12 md:text-right pr-4 order-2 md:order-1 mt-2 md:mt-0 transform group-hover:-translate-x-2 transition duration-300">
-                                <h4 class="font-serif text-xl text-sage">Ceremonia</h4>
-                                <p class="text-xs text-gray-500 font-light">En el jardín principal</p>
+                <div class="relative timeline-line max-w-4xl mx-auto px-4 md:px-0">
+                    
+                    <div class="relative flex items-center mb-24 group reveal">
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-[3px] border-hydrangea rounded-full z-20 group-hover:scale-125 group-hover:bg-hydrangea transition duration-500 shadow-sm"></div>
+                        
+                        <div class="w-full flex flex-col md:flex-row items-start md:items-center">
+                            <div class="w-full md:w-1/2 pl-16 md:pl-0 md:pr-8 md:text-right order-2 md:order-1 mt-2 md:mt-0">
+                                <h4 class="font-serif text-2xl text-moss group-hover:text-hydrangea transition duration-300">Ceremonia</h4>
+                                <p class="text-xs text-moss/70 font-sans tracking-widest uppercase mt-1">El jardín principal</p>
                             </div>
-                            <div class="md:w-2/12 flex justify-start md:justify-center order-1 md:order-2">
-                                <span class="bg-white border border-gray-100 text-hydrangea text-xs font-semibold px-3 py-1 rounded-full shadow-sm">17:00 HRS</span>
-                            </div>
-                            <div class="hidden md:block md:w-5/12 pl-4 order-3 text-gray-300 group-hover:text-hydrangea transition duration-300">
-                                <i class="fa-solid fa-rings-wedding text-2xl"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative flex items-center mb-12 group reveal">
-                        <div class="absolute left-[20px] md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white border-2 border-sage rounded-full z-10 group-hover:scale-[1.8] group-hover:bg-sage transition duration-300"></div>
-                        <div class="w-full flex flex-col md:flex-row items-start md:items-center justify-between pl-12 md:pl-0">
-                            <div class="hidden md:flex md:w-5/12 justify-end pr-4 order-1 text-gray-300 group-hover:text-sage transition duration-300">
-                                <i class="fa-solid fa-camera text-2xl"></i>
-                            </div>
-                            <div class="md:w-2/12 flex justify-start md:justify-center order-1 md:order-2">
-                                <span class="bg-white border border-gray-100 text-sage text-xs font-semibold px-3 py-1 rounded-full shadow-sm">18:00 HRS</span>
-                            </div>
-                            <div class="md:w-5/12 md:text-left pl-0 md:pl-4 order-2 md:order-3 mt-2 md:mt-0 transform group-hover:translate-x-2 transition duration-300">
-                                <h4 class="font-serif text-xl text-sage">Sesión de Fotos</h4>
-                                <p class="text-xs text-gray-500 font-light">Coctel para invitados en la terraza</p>
+                            <div class="w-full md:w-1/2 pl-16 md:pl-8 md:text-left order-1 md:order-2">
+                                <span class="inline-block bg-white/80 backdrop-blur-sm border border-hydrangea/20 text-hydrangea text-sm font-bold px-4 py-1 rounded-full shadow-sm">17:00 HRS</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="relative flex items-center mb-12 group reveal">
-                        <div class="absolute left-[20px] md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white border-2 border-goldhour rounded-full z-10 group-hover:scale-[1.8] group-hover:bg-goldhour transition duration-300"></div>
-                        <div class="w-full flex flex-col md:flex-row items-start md:items-center justify-between pl-12 md:pl-0">
-                            <div class="md:w-5/12 md:text-right pr-4 order-2 md:order-1 mt-2 md:mt-0 transform group-hover:-translate-x-2 transition duration-300">
-                                <h4 class="font-serif text-xl text-sage">Comida & Banquete</h4>
-                                <p class="text-xs text-gray-500 font-light">A disfrutar de los sabores locales</p>
+                    <div class="relative flex items-center mb-24 group reveal">
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-[3px] border-sage rounded-full z-20 group-hover:scale-125 group-hover:bg-sage transition duration-500 shadow-sm"></div>
+                        
+                        <div class="w-full flex flex-col md:flex-row items-start md:items-center">
+                            <div class="w-full md:w-1/2 pl-16 md:pl-0 md:pr-8 md:text-right order-1 md:order-2">
+                                <span class="inline-block bg-white/80 backdrop-blur-sm border border-sage/20 text-sage text-sm font-bold px-4 py-1 rounded-full shadow-sm">18:00 HRS</span>
                             </div>
-                            <div class="md:w-2/12 flex justify-start md:justify-center order-1 md:order-2">
-                                <span class="bg-white border border-gray-100 text-goldhour text-xs font-semibold px-3 py-1 rounded-full shadow-sm">19:30 HRS</span>
-                            </div>
-                            <div class="hidden md:block md:w-5/12 pl-4 order-3 text-gray-300 group-hover:text-goldhour transition duration-300">
-                                <i class="fa-solid fa-utensils text-2xl"></i>
+                            <div class="w-full md:w-1/2 pl-16 md:pl-8 md:text-left order-2 md:order-1 mt-2 md:mt-0">
+                                <h4 class="font-serif text-2xl text-moss group-hover:text-sage transition duration-300">Fotos con Invitados</h4>
+                                <p class="text-xs text-moss/70 font-sans tracking-widest uppercase mt-1">Coctel en la terraza</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="relative flex items-center mb-12 group reveal">
-                        <div class="absolute left-[20px] md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white border-2 border-hydrangea rounded-full z-10 group-hover:scale-[1.8] group-hover:bg-hydrangea transition duration-300"></div>
-                        <div class="w-full flex flex-col md:flex-row items-start md:items-center justify-between pl-12 md:pl-0">
-                            <div class="hidden md:flex md:w-5/12 justify-end pr-4 order-1 text-gray-300 group-hover:text-hydrangea transition duration-300">
-                                <i class="fa-solid fa-music text-2xl"></i>
+                    <div class="relative flex items-center mb-24 group reveal">
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-[3px] border-goldhour rounded-full z-20 group-hover:scale-125 group-hover:bg-goldhour transition duration-500 shadow-sm"></div>
+                        
+                        <div class="w-full flex flex-col md:flex-row items-start md:items-center">
+                            <div class="w-full md:w-1/2 pl-16 md:pl-0 md:pr-8 md:text-right order-2 md:order-1 mt-2 md:mt-0">
+                                <h4 class="font-serif text-2xl text-moss group-hover:text-goldhour transition duration-300">Comida & Banquete</h4>
+                                <p class="text-xs text-moss/70 font-sans tracking-widest uppercase mt-1">A disfrutar sabores locales</p>
                             </div>
-                            <div class="md:w-2/12 flex justify-start md:justify-center order-1 md:order-2">
-                                <span class="bg-white border border-gray-100 text-hydrangea text-xs font-semibold px-3 py-1 rounded-full shadow-sm">21:00 HRS</span>
+                            <div class="w-full md:w-1/2 pl-16 md:pl-8 md:text-left order-1 md:order-2">
+                                <span class="inline-block bg-white/80 backdrop-blur-sm border border-goldhour/20 text-goldhour text-sm font-bold px-4 py-1 rounded-full shadow-sm">19:30 HRS</span>
                             </div>
-                            <div class="md:w-5/12 md:text-left pl-0 md:pl-4 order-2 md:order-3 mt-2 md:mt-0 transform group-hover:translate-x-2 transition duration-300">
-                                <h4 class="font-serif text-xl text-sage">Primer Vals</h4>
-                                <p class="text-xs text-gray-500 font-light">Apertura de pista de baile</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-center mb-24 group reveal">
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-[3px] border-hydrangea rounded-full z-20 group-hover:scale-125 group-hover:bg-hydrangea transition duration-500 shadow-sm"></div>
+                        
+                        <div class="w-full flex flex-col md:flex-row items-start md:items-center">
+                            <div class="w-full md:w-1/2 pl-16 md:pl-0 md:pr-8 md:text-right order-1 md:order-2">
+                                <span class="inline-block bg-white/80 backdrop-blur-sm border border-hydrangea/20 text-hydrangea text-sm font-bold px-4 py-1 rounded-full shadow-sm">21:00 HRS</span>
+                            </div>
+                            <div class="w-full md:w-1/2 pl-16 md:pl-8 md:text-left order-2 md:order-1 mt-2 md:mt-0">
+                                <h4 class="font-serif text-2xl text-moss group-hover:text-hydrangea transition duration-300">Primer Vals</h4>
+                                <p class="text-xs text-moss/70 font-sans tracking-widest uppercase mt-1">Apertura de pista de baile</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="relative flex items-center group reveal">
-                        <div class="absolute left-[20px] md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white border-2 border-sage rounded-full z-10 group-hover:scale-[1.8] group-hover:bg-sage transition duration-300"></div>
-                        <div class="w-full flex flex-col md:flex-row items-start md:items-center justify-between pl-12 md:pl-0">
-                            <div class="md:w-5/12 md:text-right pr-4 order-2 md:order-1 mt-2 md:mt-0 transform group-hover:-translate-x-2 transition duration-300">
-                                <h4 class="font-serif text-xl text-sage">Happy Hour</h4>
-                                <p class="text-xs text-gray-500 font-light">Música, tragos y fiesta sin fin</p>
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-[3px] border-moss rounded-full z-20 group-hover:scale-125 group-hover:bg-moss transition duration-500 shadow-sm"></div>
+                        
+                        <div class="w-full flex flex-col md:flex-row items-start md:items-center">
+                            <div class="w-full md:w-1/2 pl-16 md:pl-0 md:pr-8 md:text-right order-2 md:order-1 mt-2 md:mt-0">
+                                <h4 class="font-serif text-2xl text-moss group-hover:text-moss transition duration-300">Happy Hour</h4>
+                                <p class="text-xs text-moss/70 font-sans tracking-widest uppercase mt-1">Música y fiesta sin fin</p>
                             </div>
-                            <div class="md:w-2/12 flex justify-start md:justify-center order-1 md:order-2">
-                                <span class="bg-paper text-sage text-xs font-semibold px-3 py-1 rounded-full shadow-sm">22:00 HRS</span>
-                            </div>
-                            <div class="hidden md:block md:w-5/12 pl-4 order-3 text-gray-300 group-hover:text-sage transition duration-300">
-                                <i class="fa-solid fa-champagne-glasses text-2xl"></i>
+                            <div class="w-full md:w-1/2 pl-16 md:pl-8 md:text-left order-1 md:order-2">
+                                <span class="inline-block bg-moss text-white text-sm font-bold px-4 py-1 rounded-full shadow-lg">22:00 HRS</span>
                             </div>
                         </div>
                     </div>
@@ -351,70 +416,103 @@
             </div>
         </section>
 
-        <section class="py-24 px-4 bg-paper relative">
-            <div class="max-w-5xl mx-auto">
-                <div class="text-center mb-16 reveal">
-                    <span class="font-sans text-[10px] uppercase tracking-[0.3em] text-hydrangea font-semibold">Etiqueta del evento</span>
-                    <h2 class="font-serif text-4xl md:text-5xl text-darkslate mt-2">Formal Campestre</h2>
+        <section class="relative py-24 px-4 overflow-hidden min-h-[90vh] flex items-center">
+            <div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/Users/andrew/Desktop/boda/img/fondo_etiqueta.png');"></div>
+            
+            <div class="absolute inset-0 z-10 bg-gradient-to-b from-[#E5E0D8]/80 via-[#DFDAD2]/50 to-[#1F2722]/90 backdrop-blur-[12px]"></div>
+            
+            <div class="max-w-5xl mx-auto w-full relative z-20">
+                
+                <div class="text-center mb-10 reveal">
+                    <span class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#4A4A4A] font-medium">Etiqueta del evento</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-[#2B2B2B] mt-2 mb-8">Formal Campestre</h2>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="bg-white p-10 shadow-paper rounded-sm border-t-4 border-hydrangea relative transform hover:-translate-y-2 transition duration-500 reveal">
-                        <div class="absolute top-4 right-6 text-hydrangea/20 text-6xl"><i class="fa-solid fa-check"></i></div>
-                        <h3 class="font-serif text-2xl text-darkslate mb-4">Inspiración</h3>
-                        <p class="text-sm font-light text-gray-600 mb-8">
-                            Tonos tierra, colores cálidos del atardecer o la gama campestre junto al lago. Recomendamos calzado cómodo para el césped.
+                <div class="grid md:grid-cols-2 gap-6">
+                    
+                    <div class="bg-white/50 backdrop-blur-xl p-8 md:p-10 border border-white/40 shadow-sm relative reveal">
+                        <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#8E9CA8]/30 to-transparent"></div>
+                        
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-serif text-[22px] text-[#2C3531]">Inspiración</h3>
+                            <i class="fa-solid fa-check text-2xl text-[#8E9CA8]/50"></i>
+                        </div>
+                        
+                        <p class="text-[13px] font-sans font-light text-[#2C3531]/90 leading-relaxed mb-8">
+                            Tonos tierra, colores cálidos del atardecer a la gama campestre junto al lago. Recomendamos calzado cómodo para el césped.
                         </p>
-                        <div class="flex justify-around items-end border-b border-gray-100 pb-6 mb-6">
-                            <div class="text-center">
-                                <i class="fa-solid fa-user-tie text-4xl text-dustyblue mb-2"></i>
-                                <span class="block text-[10px] uppercase tracking-widest text-gray-500">Caballeros</span>
+                        
+                        <div class="flex justify-center gap-20 relative mb-8">
+                            <div class="absolute top-1/2 left-0 w-full h-[1px] bg-[#2C3531]/10 -z-10"></div>
+                            <div class="text-center bg-transparent px-2">
+                                <i class="fa-solid fa-user text-xl text-[#7993A5] mb-2"></i>
+                                <span class="block text-[8px] uppercase tracking-[0.15em] text-[#2C3531]/60 font-semibold">Caballeros</span>
                             </div>
-                            <div class="text-center">
-                                <i class="fa-solid fa-person-dress text-5xl text-sand mb-2"></i>
-                                <span class="block text-[10px] uppercase tracking-widest text-gray-500">Damas</span>
+                            <div class="text-center bg-transparent px-2">
+                                <i class="fa-solid fa-person-dress text-2xl text-[#D99A5A] mb-2"></i>
+                                <span class="block text-[8px] uppercase tracking-[0.15em] text-[#2C3531]/60 font-semibold">Damas</span>
                             </div>
                         </div>
-                        <div class="flex gap-2 h-8 rounded-full overflow-hidden shadow-inner">
-                            <div class="flex-1 bg-[#8A4F35]" title="Terracota"></div>
-                            <div class="flex-1 bg-[#C2944A]" title="Ocre"></div>
-                            <div class="flex-1 bg-[#6B2D38]" title="Marsala"></div>
-                            <div class="flex-1 bg-dustyblue" title="Azul Pizarra"></div>
-                            <div class="flex-1 bg-sand" title="Arena"></div>
+                        
+                        <div class="flex justify-between items-center gap-1 mt-4">
+                            <div class="w-8 h-8 rounded-full bg-[#B25C3E]"></div>
+                            <div class="w-8 h-8 rounded-full bg-[#D4A54B]"></div>
+                            <div class="w-8 h-8 rounded-full bg-[#752D3D]"></div>
+                            <div class="w-8 h-8 rounded-full bg-[#4B5563]"></div>
+                            <div class="w-8 h-8 rounded-full bg-[#41274F]"></div>
+                            <div class="w-8 h-8 rounded-full bg-[#5C4033]"></div>
+                            <div class="w-8 h-8 rounded-full bg-[#D46E40]"></div>
+                            <div class="w-8 h-8 rounded-full bg-[#1A1A1A]"></div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-10 shadow-paper rounded-sm border-t-4 border-sage relative transform hover:-translate-y-2 transition duration-500 reveal delay-100">
-                        <h3 class="font-serif text-2xl text-darkslate mb-4">Colores Reservados</h3>
-                        <p class="text-sm font-light text-gray-600 mb-8 italic">
-                            Para mantener la armonía fotográfica, agradecemos **evitar** los siguientes tonos y prendas:
+                    <div class="bg-white/50 backdrop-blur-xl p-8 md:p-10 border border-white/40 shadow-sm relative reveal delay-100">
+                        <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#4A5D4E]/30 to-transparent"></div>
+
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-serif text-[22px] text-[#2C3531]">Colores Reservados</h3>
+                            <i class="fa-solid fa-xmark text-3xl text-[#4A5D4E]/60"></i>
+                        </div>
+                        
+                        <p class="text-[13px] font-sans font-light text-[#2C3531]/90 leading-relaxed mb-6">
+                            Para mantener la armonía fotográfica, agradecemos *evitar* los siguientes tonos y prendas:
                         </p>
-                        <div class="space-y-5">
-                            <div class="flex items-center gap-4 border-b border-gray-50 pb-3 group hover:bg-red-50/50 p-2 rounded transition">
-                                <span class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 border border-gray-200 group-hover:text-red-400 group-hover:border-red-200 transition">
-                                    <i class="fa-solid fa-ban"></i>
-                                </span>
-                                <div class="flex-1">
-                                    <h4 class="text-sm font-medium text-darkslate">Cualquier tipo de Blanco</h4>
-                                    <p class="text-[10px] text-sage font-sans uppercase">Color exclusivo de la Novia</p>
+                        
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-4 py-[10px] border-b border-white/30">
+                                <div class="w-5 h-5 flex flex-shrink-0 items-center justify-center rounded-full bg-white/40 text-[#2C3531]/50">
+                                    <i class="fa-solid fa-ban text-[10px]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-semibold text-[#2C3531]">Cualquier tipo de Blanco</h4>
+                                    <p class="text-[8px] text-[#2C3531]/70 font-sans uppercase tracking-widest mt-0.5">Color exclusivo de la novia</p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-4 border-b border-gray-50 pb-3 group hover:bg-red-50/50 p-2 rounded transition">
-                                <span class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 border border-gray-200 group-hover:text-red-400 group-hover:border-red-200 transition">
-                                    <i class="fa-solid fa-ban"></i>
-                                </span>
-                                <div class="flex-1">
-                                    <h4 class="text-sm font-medium text-darkslate">Verdes y Azul Marino</h4>
-                                    <p class="text-[10px] text-sage font-sans uppercase">Reservado para Damas y Best Men</p>
+                            <div class="flex items-center gap-4 py-[10px] border-b border-white/30">
+                                <div class="w-5 h-5 flex flex-shrink-0 items-center justify-center rounded-full bg-white/40 text-[#2C3531]/50">
+                                    <i class="fa-solid fa-ban text-[10px]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-semibold text-[#2C3531]">Colores Pastel</h4>
+                                    <p class="text-[8px] text-[#2C3531]/70 font-sans uppercase tracking-widest mt-0.5">Evitar tonos muy pálidos</p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-4 group hover:bg-red-50/50 p-2 rounded transition">
-                                <span class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 border border-gray-200 group-hover:text-red-400 group-hover:border-red-200 transition">
-                                    <i class="fa-solid fa-ban"></i>
-                                </span>
-                                <div class="flex-1">
-                                    <h4 class="text-sm font-medium text-darkslate">Ropa Casual o Brillante</h4>
-                                    <p class="text-[10px] text-gray-500 font-sans uppercase">No Mezclilla, Tenis, ni Lentejuelas</p>
+                            <div class="flex items-center gap-4 py-[10px] border-b border-white/30">
+                                <div class="w-5 h-5 flex flex-shrink-0 items-center justify-center rounded-full bg-white/40 text-[#2C3531]/50">
+                                    <i class="fa-solid fa-ban text-[10px]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-semibold text-[#2C3531]">Verdes y Azul Marino</h4>
+                                    <p class="text-[8px] text-[#2C3531]/70 font-sans uppercase tracking-widest mt-0.5">Reservado para damas de honor y azul marino para best men</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 py-[10px]">
+                                <div class="w-5 h-5 flex flex-shrink-0 items-center justify-center rounded-full bg-white/40 text-[#2C3531]/50">
+                                    <i class="fa-solid fa-ban text-[10px]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-semibold text-[#2C3531]">Ropa Casual o Brillante</h4>
+                                    <p class="text-[8px] text-[#2C3531]/70 font-sans uppercase tracking-widest mt-0.5">No mezclilla, tenis, ni lentejuelas</p>
                                 </div>
                             </div>
                         </div>
@@ -426,15 +524,14 @@
                     <i class="fa-solid fa-moon text-goldhour text-4xl mb-4 relative z-10 animate-pulse"></i>
                     <h4 class="font-serif text-3xl text-cream mb-3 relative z-10">Celebración Exclusiva para Adultos</h4>
                     <div class="w-16 h-[1px] bg-goldhour/50 mx-auto mb-4 relative z-10"></div>
-                    <p class="text-sm font-light text-cream/80 max-w-lg mx-auto leading-relaxed relative z-10">
-                        Amamos a sus pequeños con todo el corazón, pero para permitir a todos los invitados relajarse, brindar y disfrutar al máximo de la noche, nuestra recepción será un evento sin niños. ¡Agradecemos su comprensión!
-                    </p>
+                    <p class="text-sm font-light text-cream/80 max-w-lg mx-auto leading-relaxed relative z-10">Amamos a sus pequeños con todo el corazón, pero para permitir a todos los invitados relajarse, brindar y disfrutar al máximo de la noche, nuestra recepción será un evento sin niños. ¡Agradecemos su comprensión!</p>
                 </div>
+
             </div>
         </section>
-
-        <section class="py-32 px-4 relative border-y border-hydrangea/20">
-            <div class="absolute inset-0 bg-darkslate"></div>
+        
+        <section class="py-32 px-4 relative border-b border-hydrangea/20">
+            <div class="absolute inset-0 bg-[#3C4A3E]"></div>
             <div class="absolute inset-0 hydrangea-accent opacity-10"></div>
             
             <div class="max-w-6xl mx-auto text-center relative z-10">
@@ -442,51 +539,75 @@
                 <p class="font-sans text-xs uppercase tracking-[0.2em] text-cream/70 mb-12 reveal">Una mirada a nuestra historia</p>
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
-                    
-                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-white/20 shadow-lg transform hover:scale-105 transition duration-500">
-                        <img src="TU_FOTO_GALERIA_1.jpg" alt="Galería 1" class="w-full h-full object-cover">
+                    <div class="relative aspect-square rounded-xl overflow-hidden border border-white/30 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)] transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(249,247,241,0.2)] transition-all duration-700 group">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR7101.jpg" alt="Galería 1" class="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-1000 ease-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10 pointer-events-none opacity-80 group-hover:opacity-30 transition-opacity duration-700"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-goldhour/10 to-white/20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     </div>
-                    
-                    <div class="aspect-[3/4] md:aspect-square rounded-xl overflow-hidden border-2 border-white/20 shadow-lg transform hover:scale-105 transition duration-500 translate-y-4">
-                        <img src="TU_FOTO_GALERIA_2.jpg" alt="Galería 2" class="w-full h-full object-cover">
+                    <div class="relative aspect-[3/4] md:aspect-square rounded-xl overflow-hidden border border-white/30 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)] transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(249,247,241,0.2)] transition-all duration-700 translate-y-4 group">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR7145.jpg" alt="Galería 2" class="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-1000 ease-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10 pointer-events-none opacity-80 group-hover:opacity-30 transition-opacity duration-700"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-goldhour/10 to-white/20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     </div>
-                    
-                    <div class="aspect-[3/4] md:aspect-square rounded-xl overflow-hidden border-2 border-white/20 shadow-lg transform hover:scale-105 transition duration-500 translate-y-4">
-                        <img src="TU_FOTO_GALERIA_3.jpg" alt="Galería 3" class="w-full h-full object-cover">
+                    <div class="relative aspect-[3/4] md:aspect-square rounded-xl overflow-hidden border border-white/30 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)] transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(249,247,241,0.2)] transition-all duration-700 translate-y-4 group">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR6889.jpg" alt="Galería 3" class="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-1000 ease-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10 pointer-events-none opacity-80 group-hover:opacity-30 transition-opacity duration-700"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-goldhour/10 to-white/20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     </div>
-                    
-                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-white/20 shadow-lg transform hover:scale-105 transition duration-500">
-                        <img src="TU_FOTO_GALERIA_4.jpg" alt="Galería 4" class="w-full h-full object-cover">
+                    <div class="relative aspect-square rounded-xl overflow-hidden border border-white/30 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)] transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(249,247,241,0.2)] transition-all duration-700 group">
+                        <img src="/Users/andrew/Desktop/boda/FotosBoda/Destacados/_JBR6844.jpg" alt="Galería 4" class="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-1000 ease-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10 pointer-events-none opacity-80 group-hover:opacity-30 transition-opacity duration-700"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-goldhour/10 to-white/20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     </div>
-                    
+                </div>
+
+                <div class="mt-16 text-center reveal">
+                    <a href="https://joshuaphotos1.pixieset.com/jessandandress/" target="_blank" class="inline-flex items-center gap-3 px-8 py-3 border border-cream/40 rounded-full text-cream text-xs uppercase tracking-[0.2em] font-sans hover:bg-cream hover:text-[#3C4A3E] hover:shadow-[0_0_20px_rgba(249,247,241,0.2)] transition-all duration-500 group">
+                        Ver Galería
+                        <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition duration-300"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section class="py-24 px-4 bg-white border-y border-gray-100">
+        <section class="py-20 px-4 relative">
             <div class="max-w-5xl mx-auto text-center reveal">
                 <i class="fa-solid fa-gift text-hydrangea/40 text-4xl mb-4"></i>
-                <h2 class="font-serif text-4xl md:text-5xl text-darkslate mb-4">Mesa de Regalos</h2>
-                <p class="font-sans font-light text-sm text-gray-500 max-w-xl mx-auto mb-16">Su presencia es nuestro mayor regalo, pero si desean tener un detalle con nosotros, pueden hacerlo en:</p>
+                <h2 class="font-serif text-4xl md:text-5xl text-darkslate mb-3">Mesa de Regalos</h2>
+                <p class="font-sans font-light text-[13px] text-gray-500 max-w-lg mx-auto mb-12">Su presencia es nuestro mayor regalo, pero si desean tener un detalle con nosotros, pueden hacerlo en:</p>
                 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="border border-gray-200 rounded-lg p-8 hover:shadow-paper hover:-translate-y-2 transition duration-300 relative bg-paper/30">
-                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center text-gray-400"><i class="fa-brands fa-amazon"></i></div>
-                        <h4 class="font-sans font-semibold text-darkslate mb-2 mt-4">Amazon</h4>
-                        <p class="text-xs text-gray-500 font-light mb-8">Lista registrada a nombre de Jess & Andrés.</p>
-                        <a href="https://www.amazon.com.mx/wedding" target="_blank" class="block w-full py-3 bg-white border border-darkslate text-darkslate text-xs uppercase tracking-widest font-semibold hover:bg-darkslate hover:text-white transition">Ir a la Mesa</a>
+                <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+                    <div class="bg-white rounded-2xl p-6 md:p-8 hover:shadow-paper hover:-translate-y-1 transition duration-300 border border-gray-100 shadow-sm flex flex-col h-full relative">
+                        <div class="w-12 h-12 mx-auto bg-[#FFF7E8] rounded-full flex items-center justify-center text-[#D87D4A] text-xl mb-4">
+                            <i class="fa-brands fa-amazon"></i>
+                        </div>
+                        <h4 class="font-sans font-semibold text-lg text-darkslate mb-2 text-center">Amazon</h4>
+                        <p class="text-xs text-gray-500 font-light mb-6 text-center leading-relaxed">Mesa registrada bajo el nombre de<br>Jess & Andrés.</p>
+                        <div class="mt-auto w-full">
+                            <a href="https://www.amazon.com.mx/wedding" target="_blank" class="block w-full py-3 bg-darkslate text-white rounded-xl text-[11px] tracking-widest uppercase font-semibold hover:bg-moss transition text-center shadow-sm">Ver Mesa</a>
+                        </div>
                     </div>
-                    <div class="border border-gray-200 rounded-lg p-8 hover:shadow-paper hover:-translate-y-2 transition duration-300 relative bg-paper/30 delay-100">
-                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center text-pink-400"><i class="fa-solid fa-bag-shopping"></i></div>
-                        <h4 class="font-sans font-semibold text-darkslate mb-2 mt-4">Liverpool</h4>
-                        <p class="text-xs text-gray-500 font-light mb-8">Código de Evento: <br><span class="font-medium text-darkslate text-sm">12345678</span></p>
-                        <a href="https://www.liverpool.com.mx/tienda/mesa-regalos" target="_blank" class="block w-full py-3 bg-white border border-darkslate text-darkslate text-xs uppercase tracking-widest font-semibold hover:bg-darkslate hover:text-white transition">Ir a la Mesa</a>
+                    
+                    <div class="bg-white rounded-2xl p-6 md:p-8 hover:shadow-paper hover:-translate-y-1 transition duration-300 border border-gray-100 shadow-sm flex flex-col h-full relative delay-100">
+                        <div class="w-12 h-12 mx-auto bg-[#FFF0F5] rounded-full flex items-center justify-center text-[#D14D72] text-lg mb-4">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <h4 class="font-sans font-semibold text-lg text-darkslate mb-2 text-center">Liverpool</h4>
+                        <p class="text-xs text-gray-500 font-light mb-6 text-center leading-relaxed">Código de Evento provisional:<br><span class="font-medium text-darkslate text-[13px] mt-1 block">12345678</span></p>
+                        <div class="mt-auto w-full">
+                            <a href="https://www.liverpool.com.mx/tienda/mesa-regalos" target="_blank" class="block w-full py-3 bg-darkslate text-white rounded-xl text-[11px] tracking-widest uppercase font-semibold hover:bg-moss transition text-center shadow-sm">Ver Mesa</a>
+                        </div>
                     </div>
-                    <div class="border border-hydrangea/40 rounded-lg p-8 hover:shadow-paper hover:-translate-y-2 transition duration-300 relative bg-hydrangea/5 delay-200">
-                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-hydrangea/40 rounded-full flex items-center justify-center text-hydrangea"><i class="fa-solid fa-envelope-open-text"></i></div>
-                        <h4 class="font-sans font-semibold text-darkslate mb-2 mt-4">Aportación</h4>
-                        <p class="text-xs text-gray-500 font-light mb-8">Regalo digital segura mediante tarjeta o transferencia.</p>
-                        <a href="https://uniko.co" target="_blank" class="block w-full py-3 bg-hydrangea text-white text-xs uppercase tracking-widest font-semibold hover:bg-dustyblue transition shadow-md">Aportar Regalo</a>
+                    
+                    <div class="bg-white rounded-2xl p-6 md:p-8 hover:shadow-paper hover:-translate-y-1 transition duration-300 border border-gray-100 shadow-sm flex flex-col h-full relative delay-200">
+                        <div class="w-12 h-12 mx-auto bg-[#EDF5F0] rounded-full flex items-center justify-center text-[#4A7C59] text-lg mb-4">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                        </div>
+                        <h4 class="font-sans font-semibold text-lg text-darkslate mb-2 text-center">Efectivo / Digital</h4>
+                        <p class="text-xs text-gray-500 font-light mb-6 text-center leading-relaxed">Si prefieren obsequiarnos efectivo, ponemos a su disposición esta opción digital para recibir su aportación de forma cómoda y segura.</p>
+                        <div class="mt-auto w-full">
+                            <a href="https://uniko.co" target="_blank" class="block w-full py-3 bg-darkslate text-white rounded-xl text-[11px] tracking-widest uppercase font-semibold hover:bg-moss transition text-center shadow-sm">Aportar Regalo</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -494,28 +615,24 @@
 
         <section class="py-32 px-4 relative bg-darkslate">
             <div class="absolute inset-0 hydrangea-accent opacity-10 mix-blend-luminosity"></div>
-            
             <div class="max-w-lg mx-auto relative z-10 reveal">
                 <div class="bg-paper p-10 md:p-12 shadow-2xl relative rounded-xl">
                     <div class="absolute inset-0 opacity-40 bg-paper-texture pointer-events-none rounded-xl"></div>
-                    
                     <div class="text-center mb-8 relative z-10">
-                        <span class="font-sans text-[10px] uppercase tracking-[0.3em] text-hydrangea font-semibold">Répondez s'il vous plaît</span>
+                        <span class="font-sans text-[10px] uppercase tracking-[0.3em] text-hydrangea font-semibold">Por favor, responda</span>
                         <h2 class="font-serif text-4xl text-darkslate mt-2 mb-2">Confirmar Asistencia</h2>
                         <div class="w-12 h-[1px] bg-darkslate/20 mx-auto"></div>
                     </div>
                     
-                    <form id="rsvp-wedding-form" action="https://formspree.io/f/TU_ID_AQUI" method="POST" class="relative z-10">
+                    <form id="rsvp-wedding-form" action="https://api.web3forms.com/submit" method="POST" class="relative z-10">
+                        <input type="hidden" name="access_key" value="8f59ef40-551d-4058-a17c-071a37a7295d">
+                        
                         <div id="rsvp-guests-container" class="mb-6 space-y-4"></div>
-
                         <div class="mb-8">
                             <label class="block text-[10px] uppercase tracking-widest font-semibold mb-2 text-gray-500 font-sans border-b border-gray-200 pb-1">Mensaje para los novios (Opcional)</label>
                             <textarea name="mensaje_adicional" rows="2" class="w-full px-0 py-2 bg-transparent border-b border-gray-300 text-sm focus:outline-none focus:border-hydrangea transition resize-none font-serif italic text-darkslate" placeholder="Escribe tus buenos deseos aquí..."></textarea>
                         </div>
-
-                        <button type="submit" class="w-full bg-darkslate text-white py-4 font-sans font-semibold uppercase tracking-[0.2em] text-xs hover:bg-moss transition duration-300 border border-transparent hover:border-white/20 rounded-full shadow-lg transform active:scale-95">
-                            Enviar Respuesta
-                        </button>
+                        <button type="submit" id="btn-enviar-rsvp" class="w-full bg-darkslate text-white py-4 font-sans font-semibold uppercase tracking-[0.2em] text-xs hover:bg-moss transition duration-300 border border-transparent hover:border-white/20 rounded-full shadow-lg transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">Enviar Respuesta</button>
                     </form>
                 </div>
             </div>
@@ -528,19 +645,16 @@
     </div>
 
     <script>
+        // COUNTDOWN
         const targetDate = new Date('October 18, 2026 17:00:00').getTime();
-
         function updateCountdown() {
             const now = new Date().getTime();
             const difference = targetDate - now;
-
             if (difference < 0) return;
-
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
             document.getElementById('countdown-days').innerText = days < 10 ? '0' + days : days;
             document.getElementById('countdown-hours').innerText = hours < 10 ? '0' + hours : hours;
             document.getElementById('countdown-minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
@@ -549,23 +663,38 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
+        // AQUÍ VA TU DICCIONARIO JSON DE INVITADOS
+        const listaInvitados = {
+            "diego_danna": ["Diego Marin", "Danna Martinez"],
+            "fam_paez": ["Juan Pablo Paez", "Gloria Sanchez", "Yareli Paez", "Itzae Paez"],
+            "irwin": ["Irwin Riveron"]
+        };
+
+        // GUEST NAME URL PARAMS & JSON LOGIC
         const urlParams = new URLSearchParams(window.location.search);
-        const invitados = [];
+        const guestId = urlParams.get('id');
+        let invitados = [];
         
-        for (let i = 1; i <= 5; i++) {
-            const name = urlParams.get('n' + i);
-            if (name) invitados.push(name.trim());
+        if (guestId && listaInvitados[guestId]) {
+            invitados = listaInvitados[guestId];
         }
 
-        let nombrePantalla = "Queridos Amigos";
-        if (invitados.length === 1) nombrePantalla = invitados[0];
-        else if (invitados.length === 2) nombrePantalla = `${invitados[0]} y ${invitados[1]}`;
-        else if (invitados.length > 2) nombrePantalla = `Familia ${invitados[0]}`;
-
+        // LÓGICA DEL SOBRE INICIAL
+        let nombrePantalla = "Nuestros Invitados Especiales";
+        if (invitados.length === 1) {
+            nombrePantalla = invitados[0]; // Solo una persona
+        } else if (invitados.length === 2) {
+            nombrePantalla = `${invitados[0]} y ${invitados[1]}`; // Pareja
+        } else if (invitados.length > 2) {
+            // Obtenemos el apellido de la primera persona para decir "Familia X"
+            let primerNombreArr = invitados[0].split(' ');
+            let apellidoFamilia = primerNombreArr[primerNombreArr.length - 1]; // Toma la última palabra
+            nombrePantalla = `Familia ${apellidoFamilia}`;
+        }
         document.getElementById('envelope-guest-name').innerText = nombrePantalla;
 
+        // RSVP FORM GENERATOR
         const rsvpContainer = document.getElementById('rsvp-guests-container');
-        
         if (invitados.length > 0) {
             let containerHTML = `<p class="text-[10px] uppercase tracking-widest font-semibold text-hydrangea mb-4 font-sans border-b border-gray-200 pb-1">Selecciona asistencia por invitado:</p>`;
             invitados.forEach((invitado, idx) => {
@@ -575,7 +704,8 @@
                             <span class="text-sm font-serif font-semibold text-darkslate truncate">${invitado}</span>
                             <input type="hidden" name="Invitado_${idx+1}_Nombre" value="${invitado}">
                         </div>
-                        <select name="Invitado_${idx+1}_Asistencia" class="bg-transparent text-xs font-sans text-right focus:outline-none w-1/3 text-gray-600 cursor-pointer">
+                        <select name="Invitado_${idx+1}_Asistencia" required class="bg-transparent text-xs font-sans text-right focus:outline-none w-1/3 text-gray-600 cursor-pointer">
+                            <option value="" disabled selected>Selecciona...</option>
                             <option value="Sí Asiste">Acepta con gusto</option>
                             <option value="No Asiste">Declina con pena</option>
                         </select>
@@ -584,19 +714,81 @@
             });
             rsvpContainer.innerHTML = containerHTML;
         } else {
+            // Formulario genérico por si alguien entra sin link especial
             rsvpContainer.innerHTML = `
                 <div class="mb-4 border-b border-gray-300 pb-2">
-                    <input type="text" name="Nombre" required placeholder="Nombre Completo" class="w-full bg-transparent text-sm focus:outline-none font-serif italic text-darkslate">
+                    <input type="text" name="Nombre_Invitado" required placeholder="Tu Nombre Completo" class="w-full bg-transparent text-sm focus:outline-none font-serif italic text-darkslate">
                 </div>
                 <div class="mb-4 border-b border-gray-300 pb-2">
-                    <select name="Asistencia" class="w-full bg-transparent text-sm focus:outline-none font-serif text-darkslate">
-                        <option value="Asistiré">Acepto con gusto</option>
+                    <select name="Asistencia" required class="w-full bg-transparent text-sm focus:outline-none font-serif text-darkslate cursor-pointer">
+                        <option value="" disabled selected>Selecciona tu respuesta...</option>
+                        <option value="Sí Asistiré">Acepto con gusto</option>
                         <option value="No Asistiré">Declino con pena</option>
                     </select>
-                </div>
-            `;
+                </div>`;
         }
 
+        // LÓGICA DE ENVÍO DE FORMULARIO A WEB3FORMS (AJAX)
+        const form = document.getElementById('rsvp-wedding-form');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Evitamos que la página recargue o nos lleve a otra web
+            
+            // Personalizamos el ASUNTO del correo con el ID
+            const asuntoCorreo = guestId ? `Nueva confirmación: ${guestId}` : `Nueva confirmación de invitado`;
+            
+            // Web3Forms pide que el input para el asunto se llame "subject"
+            let subjectInput = form.querySelector('input[name="subject"]');
+            if (!subjectInput) {
+                subjectInput = document.createElement('input');
+                subjectInput.type = 'hidden';
+                subjectInput.name = 'subject';
+                form.appendChild(subjectInput);
+            }
+            subjectInput.value = asuntoCorreo;
+
+            const btnSubmit = document.getElementById('btn-enviar-rsvp');
+            const originalText = btnSubmit.innerText;
+            btnSubmit.innerText = 'Enviando...';
+            btnSubmit.disabled = true;
+
+            try {
+                // Hacemos el envío por detrás (AJAX)
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Si se envió bien, mostramos el modal bonito
+                    const modal = document.getElementById('success-modal');
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    
+                    // Limpiamos las selecciones
+                    form.reset();
+                } else {
+                    alert("Hubo un error al enviar tu respuesta. Por favor revisa tu conexión o intenta de nuevo más tarde.");
+                }
+            } catch (error) {
+                alert("Hubo un error al enviar tu respuesta. Por favor intenta de nuevo.");
+            } finally {
+                // Regresamos el botón a la normalidad
+                btnSubmit.innerText = originalText;
+                btnSubmit.disabled = false;
+            }
+        });
+
+        // Función para cerrar el modal de éxito
+        function closeModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // ENVELOPE SCRIPT
         function openEnvelope() {
             const env = document.getElementById('envelope-screen');
             env.style.transform = 'translateY(-100%)';
@@ -604,6 +796,7 @@
             setTimeout(() => { env.style.display = 'none'; }, 1200);
         }
 
+        // REVEAL ON SCROLL
         function revealOnScroll() {
             var reveals = document.querySelectorAll('.reveal');
             for (var i = 0; i < reveals.length; i++) {
