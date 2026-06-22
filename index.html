@@ -102,6 +102,13 @@
             background-size: cover;
         }
 
+        /* CORRECCIÓN: Evita el bug de iOS Safari en celulares con background-attachment: fixed */
+        @media (max-width: 1024px), @supports (-webkit-touch-callout: none) {
+            .bg-parallax {
+                background-attachment: scroll;
+            }
+        }
+
         .torn-edges {
              clip-path: polygon(
                 0% 3%, 2% 0%, 4% 4%, 6% 1%, 8% 3%, 10% 0%, 12% 5%, 14% 1%, 16% 3%, 18% 0%, 
